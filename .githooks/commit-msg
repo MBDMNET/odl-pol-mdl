@@ -1,0 +1,279 @@
+#!/bin/sh
+#
+# An example hook script to verify what is about to be pushed.  Called by "git
+# push" after it has checked the remote status, but before anything has been
+# pushed.  If this script exits with a non-zero status nothing will be pushed.
+#
+# This hook is called with the following parameters:
+#
+# $1 -- Name of the remote to which the push is being done
+# $2 -- URL to which the push is being done
+#
+# If pushing without using a named remote those arguments will be equal.
+#
+# Information about the commits which are being pushed is supplied as lines to
+# the standard input in the form:
+#
+#   <local ref> <local sha1> <remote ref> <remote sha1>
+#
+
+
+npm_get_current_version(){
+	(
+		node -p -e "require('./package.json').version"
+	)
+}
+
+npm_precompile(){
+	npm run test:ci
+	if [ $? -eq 0 ]; then
+		echo "Tets unitarios ejecutados correctamente."
+		retval=0
+	else
+		echo "Se han encontrado errores en los test unitarios."
+		retval=1
+	fi
+	return "$retval"
+}
+
+npm_increment_version(){
+	(
+		npm version $1 --no-git-tag-version
+	)
+}
+
+npm_calculate_new_version(){
+
+	IFS='-' read -r version metadata <<< "$2"
+
+	major=0
+	minor=0
+	patch=0
+
+	# break down the version number into it's components
+	regex="([0-9]+).([0-9]+).([0-9]+)*"
+	if [[ $version =~ $regex ]]; then
+	  major="${BASH_REMATCH[1]}"
+	  minor="${BASH_REMATCH[2]}"
+	  patch="${BASH_REMATCH[3]}"
+	fi
+
+	# check paramater to see which number to increment
+	if [[ "$1" == "MAJOR" ]]; then
+	  major="$(($major + 1))"
+	  minor=0
+	  patch=0
+	elif [[ "$1" == "MINOR" ]]; then
+	  minor="$(($minor + 1))"
+	  patch=0
+	elif [[ "$1" == "PATCH" ]]; then
+	  patch="$(($patch + 1))"
+	fi
+	if [ -z ${metadata} ]; then 
+	  echo "${major}.${minor}.${patch}"
+	else
+	  echo "${major}.${minor}.${patch}-${metadata}"
+	fi
+}
+
+mvn_increment_version(){
+	(
+		mvn -q org.codehaus.mojo:build-helper-maven-plugin:3.1.0:parse-version \
+			org.codehaus.mojo:versions-maven-plugin:2.7:set \
+			-DnewVersion=$1 \
+			-DoldVersion=* \
+			-DartifactId=* \
+			-DgroupId=* \
+			org.codehaus.mojo:versions-maven-plugin:2.7:commit
+	)
+}
+
+mvn_get_current_version(){
+	(  
+
+		mvn org.apache.maven.plugins:maven-help-plugin:3.2.0:evaluate \
+		-Dexpression=project.version -q -DforceStdout
+	)
+}
+
+WORKDIR=$(pwd)
+FILE=~/.githooks/stl-exclusions.sh
+TMP_COMMIT_FILE=./commit_tmp
+echo "*************************************"
+if [[ -f "$FILE" ]]; then
+	echo "Encontrado fichero de exclusiones, comprobando si el proyecto actual está entre ellos."
+	source ~/.githooks/stl-exclusions.sh
+
+	for i in "${exclusionArray[@]}"
+	do
+		if [[ $WORKDIR == *$i* ]]; then
+			echo "Este proyecto se ha incluido en el fichero de stl-exclusions.sh ($i). No se aplicará ningún autoversionado."
+			echo "*************************************"
+			exit 0
+		fi
+	done
+fi
+
+
+echo "Este proyecto no se encuentra entre los proyectos excluidos, aplicando autoversionado."
+
+
+if [[ -f "pom.xml" ]]; then
+	echo "Detectado un proyecto Maven"
+	project_type="maven"
+elif [[ -f "package.json" ]]; then
+	echo "Detectado un proyecto NPM"
+	project_type="npm"
+else 
+	echo "No se ha detectado un proyecto Maven ni NPM. Cancelando autoversionado"
+	echo "*************************************"
+	exit 0
+fi
+
+
+
+echo "Iniciando autoversionado"
+current_branch=$(git rev-parse --abbrev-ref HEAD)
+echo "Rama: $current_branch"
+
+if [ $current_branch == "master" ]; then
+	echo "No están permitidas las subidas a la rama master"
+	echo "*************************************"
+	exit 1
+fi
+
+
+
+COMMIT_MSG_CONTENT=`cat $1`
+
+echo "Mensaje de commit:  $COMMIT_MSG_CONTENT"
+
+regex="(docs|feat|fix|chore|refactor)([^!]+)?(!)?:(.*)?"
+if [[ $COMMIT_MSG_CONTENT =~ $regex ]]; then
+	type="${BASH_REMATCH[1]}"
+	majorSign="${BASH_REMATCH[3]}"
+	message="${BASH_REMATCH[4]}"
+else 
+	echo "Mensaje de commit incorrecto, debe seguir el estándar Conventional-Commits:
+
+		<tipo> [opcional alcance]: <descripcion>
+
+		[opcional cuerpo]
+
+		[opcional pie(s) de mensaje]
+
+		Para más información, consulte: https://git.santalucia.net/projects/ARQ/repos/bitbucket-client-side-hooks/browse"
+    echo "*************************************"
+	exit 1;
+fi
+
+# If not included in the commit message, maven version will not change
+unset new_version_format
+unset increment_type
+increment_type="NONE";
+regex="(.*)?(BREAKING CHANGE)(.*)?"
+hotfix="(.*)?(hotfix)(.*)?"
+
+case "$type" in
+  docs)
+	if [[ $current_branch =~ $hotfix ]]; then
+		echo "Los cambios de tipo docs no están permitidos en una rama Hotfix."
+		echo "*************************************"
+		exit 1
+	fi
+	;;
+  feat)
+    if [[ $current_branch =~ $hotfix ]]; then
+		echo "Los cambios de tipo feat no están permitidos en una rama Hotfix."
+		echo "*************************************"
+		exit 1
+	fi
+	increment_type="MINOR";
+	;;
+  fix)
+	increment_type="PATCH";
+	;;
+  chore)
+    if [[ $current_branch =~ $hotfix ]]; then
+		echo "Los cambios de tipo chore no están permitidos en una rama Hotfix."
+		echo "*************************************"
+		exit 1
+	fi
+	;;
+  refactor)
+	;;
+esac
+
+if ! [ -z ${majorSign} ]
+then
+	increment_type="MAJOR";
+elif [[ $message =~ $regex ]]
+then
+	increment_type="MAJOR";
+fi
+
+echo "Incremento de versión: $increment_type"
+
+
+if [ "$project_type" == "maven" ]; then
+
+	case "$increment_type" in
+	  MAJOR) 
+		new_version_format=\${parsedVersion.nextMajorVersion}.0.0\${parsedVersion.qualifier?} \
+		;;
+	  MINOR) 
+		new_version_format=\${parsedVersion.majorVersion}.\${parsedVersion.nextMinorVersion}.0\${parsedVersion.qualifier?} \
+		;;
+	  PATCH) 
+		new_version_format=\${parsedVersion.majorVersion}.\${parsedVersion.minorVersion}.\${parsedVersion.nextIncrementalVersion}\${parsedVersion.qualifier?} \
+		;;
+	 *)
+		;;
+	esac
+
+	unset new_version
+	if [ -z ${new_version_format+x} ]; then 
+	  echo "No se requiere ningún incremento de versión.";
+	else
+	  current_version=$(mvn_get_current_version)
+	  echo "La versión actual del POM es: $current_version"
+
+	  echo "Cambiando de versión (llevará unos segundos)..."
+	  mvn_increment_version $new_version_format;
+
+	  new_version=$(mvn_get_current_version)
+	  echo "La nueva versión es: $new_version"
+	  echo "Finalizado autoversionado."
+	  touch $TMP_COMMIT_FILE
+	  echo 'MAVEN' > $TMP_COMMIT_FILE
+	fi	
+	echo "*************************************"
+	exit 0
+else
+	# Primero se comprueba que los test son correctos
+	npm_precompile
+	retval=$? # Si es 0 no hay errores, si es 1 si
+	# Si no hay errores se incrementa la versión si es necesario
+	if [ "$retval" == 0 ]; then
+		if [ $increment_type == 'NONE' ]; then
+			echo "No se requiere ningún incremento de versión."
+		else
+			unset current_version
+			unset new_version
+			current_version=$(npm_get_current_version)
+			echo "Versión actual del proyecto: $current_version"
+			new_version=$(npm_calculate_new_version "$increment_type" $current_version)
+			echo "Incrementando a la versión: $new_version"
+			npm_increment_version $new_version;
+			echo "Versión incrementada"
+			touch $TMP_COMMIT_FILE
+			echo 'NPM' > $TMP_COMMIT_FILE
+			echo "Finalizado autoversionado."
+			echo "*************************************"
+			exit 0
+		fi
+	# Si hay errores, no hay commit
+	else
+		exit 1
+	fi
+fi

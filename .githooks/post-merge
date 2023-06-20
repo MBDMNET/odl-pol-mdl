@@ -1,0 +1,21 @@
+#!/bin/sh
+# An example post-merge hook to 
+#   1. make submodules writable,
+#   2. init and update submodules, and 
+#   3. make them read-only
+
+# make all (existing) submodule directories writable
+#for p in `git submodule status | sed -e "s/^[+\ ][^\ ]*\ //" -e s/\ .*$//`; do
+#    echo "making submodule directory $p writable"
+#    chmod -R u+w $p;
+#done
+
+echo "updating submodules:"   
+git submodule init
+git submodule update --recursive
+
+# make all submodules read-only
+#for p in `grep path .gitmodules | sed 's/.*= //'`; do
+#    echo "making submodule directory $p read-only"
+#    chmod -R a-w $p;
+#done

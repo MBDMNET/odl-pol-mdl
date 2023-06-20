@@ -1,0 +1,142 @@
+###########################
+#                         #
+# misc spring properties  #
+#                         #
+###########################
+spring:
+  main:
+    allow-bean-definition-overriding: true
+  output:
+    ansi:
+      enabled: detect
+  jmx:
+    enabled: true
+    unique-names: true
+  devtools:
+    livereload:
+      enabled: true
+  kafka:
+    bootstrap-servers:
+      - localhost:9092
+    consumer:
+      client-id: consumerClientId-${spring.application.name}
+      properties:
+        max-poll-records: 50
+  cloud:
+    function:
+      definition: process
+    stream:
+      bindings:
+        process-in-0:
+          group: group.neg.sl.${santalucia.entorno}.prestaciones.odl-sin-template
+          destination: neg.sl.${santalucia.entorno}.prestaciones.siniestros-odl.kafka.mdl
+        process-out-0:
+          destination:
+
+  ###########################
+  #                         #
+  # i18n properties         #
+  #                         #
+  ###########################
+  messages:
+    basename: classpath:i18n/messages
+    #cache-duration: 1s si no se especifica
+    #se cachean para siempre. Al estar en el jar no es correcto
+    encoding: UTF-8
+    fallback-to-system-locale: false
+
+  ###########################
+  #                         #
+  # security properties     #
+  #                         #
+  ###########################
+  security:
+    oauth2:
+      client:
+        provider:
+          siniestrosodl:
+            issuer-uri:
+              https://sso-sldev.santalucia.es/auth/realms/stl-int-odl
+            jwk-set-uri:
+              https://sso-sldev.santalucia.es/auth/realms/stl-int-odl/protocol/openid-connect/certs
+        registration:
+          siniestrosodl:
+            client-secret: 2e004050-e390-4300-8040-50e390630000
+            client-id: 9a34b2b4-220c-11ed-9e87-5982ca013eec
+            client-authentication-method: post
+            authorization-grant-type: client_credentials
+            scope: #scopes para la autorización
+              - read:siniestros-odl
+              - write:siniestros-odl
+              - read-dynamic:siniestros-odl
+      resourceserver:
+        jwt:
+          #posibles valores RS256,RS512 depende del realm
+          jws-algorithm: RS256
+          jwk-set-uri: https://sso-sldev.santalucia.es/auth/realms/stl-int-odl/protocol/openid-connect/certs
+          # OpenID Connect Provider URI asserts as its Issuer Identifier.
+          issuer-uri: https://sso-sldev.santalucia.es/auth/realms/stl-int-odl
+
+###########################
+#                         #
+# santalucia properties   #
+#                         #
+###########################
+santalucia:
+  #sustituir por el entorno perteneciente a cada topic
+  entorno: dev
+  default-zone-id: ${TZ:Europe/Madrid}
+  ams:
+    features:
+      feign:
+        base-packages: com.santalucia.arq.ams.odl
+      events:
+        security:
+          sso:
+            enabled: false
+            urlCert: https://sso-sldev.santalucia.es/auth/realms/3scale/protocol/openid-connect/certs
+        kafka:
+          transacted: true
+          dlq: error.neg.sl.${santalucia.entorno}.prestaciones.siniestros-odl.kafka.carga.group.neg.sl.${santalucia.entorno}.prestaciones.siniestros-odl.kafka.carga
+          retry: neg.sl.${santalucia.entorno}.prestaciones.siniestros-odl.kafka.carga.retry
+
+###########################
+#                         #
+# feign client properties #
+#                         #
+###########################
+siniestros:
+  url: https://apicast-3scale-dev.app-dev.santalucia.net/odl/siniestros/v1
+
+###########################
+#                         #
+# logging properties      #
+#                         #
+###########################
+
+logging:
+  level:
+    root: INFO
+    com.santalucia: DEBUG
+    org.springframework: INFO
+    com.santalucia.arq.ams.componentes.database.guardium.interceptor.GuardiumMyBatisInterceptor: INFO
+    #org.springframework.web.servlet: DEBUG
+    #org.springframework.security: DEBUG
+    #org.springframework.web.client: DEBUG
+    #trazas para mostrar los errores de login debido a que salen en modo debug
+    org.springframework.security.oauth2.server.resource: DEBUG
+###########################
+#                         #
+# general parameters      #
+#                         #
+###########################
+
+app:
+  custom:
+    features:
+      retryMaxAttempt: 3
+      retryInterval: 3000
+      attempt: 1
+      findallPageSize: 500
+      firstVersion: 1
+

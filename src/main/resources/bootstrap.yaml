@@ -1,0 +1,64 @@
+debug: true # Enable debug logs.
+trace: false # Enable trace logs.
+
+management:
+  metrics:
+    tags:
+      #Needed by micrometer +1.1.0
+      application: ${spring.application.name}
+
+spring:
+  main:
+    allow-bean-definition-overriding: true
+  application:
+    name: odl-sin-template
+  banner:
+    location: classpath:santalucia-banner.txt
+  cloud:
+    kubernetes:
+      enabled: false
+
+info:
+  app:
+    name: ${spring.application.name}
+    encoding: UTF-8
+    java:
+      source: 11
+      target: 11
+
+logging:
+  register-shutdown-hook: true
+
+---
+spring:
+  #Profile habilitado de forma automatica cuando se despliega en OCP
+  profiles: kubernetes
+  banner:
+    location: classpath:santalucia-banner.json
+  mandatory-file-encoding: UTF-8
+  cloud:
+    kubernetes:
+      enabled: true
+      reload:
+        enabled: true
+        #refresh: only @ConfigurationProperties or @RefreshScope
+        #restart_context: all context are reloaded
+        #shutdown: full restart; not recomended
+        strategy: refresh
+        monitoring-config-maps: true
+        monitoring-secrets: false
+      config:
+        name: ${spring.application.name}
+
+debug: false # Enable debug logs.
+trace: false # Enable trace logs.
+---
+spring:
+  profiles: devops #Profile para deshabilitar kubernetes
+  mandatory-file-encoding: UTF-8
+  cloud:
+    kubernetes:
+      enabled: false
+
+debug: false # Enable debug logs.
+trace: false # Enable trace logs.

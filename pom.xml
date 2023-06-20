@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>com.santalucia.arq.ams</groupId>
+    <artifactId>ams-parent-sl-sw</artifactId>
+    <version>2.2.0-RELEASE</version>
+    <relativePath />
+    <!-- lookup parent from repository -->
+  </parent>
+
+  <groupId>com.santalucia.cdc</groupId>
+  <artifactId>odl-sin-mdl</artifactId>
+  <version>1.0.0-SNAPSHOT</version>
+  <name>odl-sin-template</name>
+  <description>Demo project for Spring Boot</description>
+
+  <!-- TODO: Sustituir proyecto y repositorio por el id de bitbucket, cuando se disponga del repositorio del proyecto-->
+  <url>https://git.santalucia.net/scm/${proyecto}/${repositorio}.git</url>
+
+  <organization>
+    <name>Santalucia Seguros</name>
+    <url>https://https://www.santalucia.es/</url>
+  </organization>
+
+  <!-- TODO: Sustituir User por nombre de los desarrolladores -->
+  <developers>
+    <developer>
+      <name>User</name>
+      <email>desarrolladores@santalucia.es</email>
+    </developer>
+  </developers>
+
+  <scm>
+    <connection>scm:git:${project.url}</connection>
+    <developerConnection>${git.santalucia.url}</developerConnection>
+    <tag>HEAD</tag>
+    <url>${project.url}</url>
+  </scm>
+
+  <ciManagement>
+    <system>jenkins</system>
+    <url>https://jenkins-devops.app-dev.santalucia.net/</url>
+    <notifiers>
+      <notifier>
+        <type>mail</type>
+        <address>desarrolladores@santalucia.es</address>
+        <sendOnSuccess>false</sendOnSuccess>
+        <sendOnWarning>false</sendOnWarning>
+      </notifier>
+    </notifiers>
+  </ciManagement>
+
+  <properties>
+    <git.hooks.skip>false</git.hooks.skip>
+    <polizas-odl-carga-kafka-topic-spec.version>2.1.1-RELEASE</polizas-odl-carga-kafka-topic-spec.version>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <siniestros-odl-api-client.version>1.1.0-RELEASE</siniestros-odl-api-client.version>
+  </properties>
+
+  <dependencies>
+    <dependency>
+      <groupId>com.santalucia.arq.ams</groupId>
+      <artifactId>ams-starter-events</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.santalucia.arq.ams</groupId>
+      <artifactId>ams-componentes-springdoc</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.santalucia.arq.ams</groupId>
+      <artifactId>ams-componentes-binder-kafka</artifactId>
+    </dependency>
+    <!-- Artefacto AsyncAPI -->
+    <dependency>
+      <groupId>com.santalucia.arq.ams.asyncapi.spec</groupId>
+      <artifactId>polizas-odl-carga-kafka-topic-spec</artifactId>
+      <version>${polizas-odl-carga-kafka-topic-spec.version}</version>
+    </dependency>
+    <!-- Testing Spring -->
+    <dependency>
+      <groupId>org.springframework.cloud</groupId>
+      <artifactId>spring-cloud-stream-test-support</artifactId>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>com.santalucia.amw</groupId>
+      <artifactId>avro-schemas-test</artifactId>
+      <version>1.0.0-SNAPSHOT</version>
+    </dependency>
+
+    <!-- Internal project modules -->
+    <dependency>
+      <groupId>com.santalucia.arq.ams</groupId>
+      <artifactId>ams-componentes-exceptions</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>com.santalucia.arq.ams</groupId>
+      <artifactId>ams-starter-observability</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>org.projectlombok</groupId>
+      <artifactId>lombok</artifactId>
+      <scope>provided</scope>
+    </dependency>
+
+    <!-- Needed for custom yaml tags resolution-->
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-configuration-processor</artifactId>
+      <optional>true</optional>
+    </dependency>
+
+    <!-- Test Dependencies -->
+    <dependency>
+      <groupId>com.santalucia.arq.ams</groupId>
+      <artifactId>ams-componentes-web-test</artifactId>
+      <scope>test</scope>
+    </dependency>
+
+    <!-- Devtools -->
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-devtools</artifactId>
+      <scope>runtime</scope>
+      <optional>true</optional>
+    </dependency>
+    <!-- CLIENTES API CRUDS -->
+    <dependency>
+      <groupId>com.santalucia.arq.ams.odl.siniestros</groupId>
+      <artifactId>siniestros-odl-api-client</artifactId>
+      <version>${siniestros-odl-api-client.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.santalucia.arq.ams</groupId>
+      <artifactId>ams-componentes-feign-security</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.santalucia.arq.ams</groupId>
+      <artifactId>ams-componentes-web-security</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.santalucia.arq.ams</groupId>
+      <artifactId>ams-componentes-feign</artifactId>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-maven-plugin</artifactId>
+      </plugin>
+    </plugins>
+  </build>
+
+</project>

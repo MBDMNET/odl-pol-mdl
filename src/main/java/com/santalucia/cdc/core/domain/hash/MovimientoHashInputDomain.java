@@ -1,13 +1,12 @@
 package com.santalucia.cdc.core.domain.hash;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.santalucia.cdc.core.domain.movimientos.DatosIdentificativosMovimientoInputDomain;
 import com.santalucia.cdc.core.domain.movimientos.UltimoMovimientoInputDomain;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Dominio para la generacion del hash del objeto poliza.

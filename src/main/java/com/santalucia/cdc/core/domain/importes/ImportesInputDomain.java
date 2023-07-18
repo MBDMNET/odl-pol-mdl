@@ -1,12 +1,11 @@
 package com.santalucia.cdc.core.domain.importes;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import lombok.Data;
 import lombok.NonNull;
 
 import javax.annotation.Nullable;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Importe

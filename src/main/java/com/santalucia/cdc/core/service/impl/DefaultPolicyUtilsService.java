@@ -1,11 +1,9 @@
 package com.santalucia.cdc.core.service.impl;
 
 
-import org.springframework.stereotype.Service;
-
 import com.santalucia.cdc.core.service.PolicyUtilsService;
-
 import lombok.NoArgsConstructor;
+import org.springframework.stereotype.Service;
 
 /**
  * Servicio con utilidades de siniestro

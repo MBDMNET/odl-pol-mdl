@@ -22,5 +22,9 @@ public class DatosPropiosTarifInputDomain {
 	private String codModContable;
 	/** Denominacion de modalidad contable*/
 	private String descModContable;
+  /** Código de Itinerario */
+  private String codItinerario;
+  /** Descripción de itinerario */
+  private String descItinerario;
 
 }

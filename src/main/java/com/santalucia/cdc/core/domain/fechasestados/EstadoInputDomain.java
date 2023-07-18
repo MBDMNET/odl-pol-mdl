@@ -1,10 +1,10 @@
 package com.santalucia.cdc.core.domain.fechasestados;
 
 
-import java.util.List;
-
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.List;
 
 /**
  * Estado
@@ -25,6 +25,10 @@ public class EstadoInputDomain {
 	private String fecEstadoPolAct;
 	/** Fecha prevista de la proxima anulacion*/
 	private String fecPrevProxAnul;
+  /** Duración de la póliza */
+  private String durPoliza;
+  /** Tipo de duración de la póliza*/
+  private String tipoDuracion;
 	/** Fecha prevista de la proxima reduccion*/
 	private String fecPrevProxRed;
 	/** Historico*/

@@ -1,9 +1,9 @@
 package com.santalucia.cdc.core.domain.coaseguro;
 
-import java.util.List;
-
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.List;
 
 /**
  * CoaseguroDomain

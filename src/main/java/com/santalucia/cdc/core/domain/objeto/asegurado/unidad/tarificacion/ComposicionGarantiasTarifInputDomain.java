@@ -1,10 +1,10 @@
 package com.santalucia.cdc.core.domain.objeto.asegurado.unidad.tarificacion;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * ComposicionGarantiasTarif
@@ -27,5 +27,6 @@ public class ComposicionGarantiasTarifInputDomain {
 	private String descGarantia;
 	/** */
 	private List<ComposicionSubgarantiasInputDomain> composicionSubgarantias = new ArrayList<>(DEFAULT_CAPACITY);
+  private List<ComposicionServiciosDomain> composicionServicios = new ArrayList<>(DEFAULT_CAPACITY);
 
 }

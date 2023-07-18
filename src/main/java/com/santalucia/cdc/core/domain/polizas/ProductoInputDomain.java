@@ -32,5 +32,7 @@ public class ProductoInputDomain {
 	private String descModalidad;
 	/** Denominacion de la modalidad interna*/
 	private String descModalidadInter;
+  /** Denominación de ramo comercial*/
+  private String descRamoComercial;
 
 }

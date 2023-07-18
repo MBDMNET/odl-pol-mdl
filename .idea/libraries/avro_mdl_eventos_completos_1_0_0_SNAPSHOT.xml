@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="avro-mdl-eventos-completos-1.0.0-SNAPSHOT">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/../../programa AVRO/avro-schemas-test/target/avro-mdl-eventos-completos-1.0.0-SNAPSHOT.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

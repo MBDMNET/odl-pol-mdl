@@ -1,16 +1,15 @@
 package com.santalucia.cdc.core.domain.objeto.asegurado;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.santalucia.cdc.core.domain.metadata.MetadataInputDomain;
 import com.santalucia.cdc.core.domain.objeto.asegurado.caracteristicas.CaracteristicasInputDomain;
 import com.santalucia.cdc.core.domain.objeto.asegurado.declaraciones.DeclaracionesExtraInputDomain;
 import com.santalucia.cdc.core.domain.objeto.asegurado.declaraciones.DeclaracionesInputDomain;
 import com.santalucia.cdc.core.domain.objeto.asegurado.unidad.tarificacion.UnidadDeTarificacionInputDomain;
-
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Colleccion ObjetoAsegurado

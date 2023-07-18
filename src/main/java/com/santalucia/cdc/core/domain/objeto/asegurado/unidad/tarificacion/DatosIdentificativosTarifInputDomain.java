@@ -44,4 +44,8 @@ public class DatosIdentificativosTarifInputDomain {
 	private String descRiesgo;
 	/** Edad de tarificacion */
 	private String edadTarif;
+  /** Porcentaje de Itinerario*/
+  private String porcItinerario;
+  /** Tasa de tarificación */
+  private Double tasaTarifi;
 }

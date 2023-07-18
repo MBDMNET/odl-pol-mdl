@@ -1,15 +1,15 @@
 package com.santalucia.cdc.core.service.impl;
 
-import java.nio.charset.StandardCharsets;
-import java.util.Map;
-import java.util.Optional;
-import java.util.function.Consumer;
-import java.util.stream.Collectors;
-
-
+import com.santalucia.arq.ams.componentes.streaming.processor.HeadersValidationProcessor;
+import com.santalucia.arq.ams.componentes.streaming.processor.SerdProcessor;
+import com.santalucia.cdc.core.domain.CargaODLInputDomain;
+import com.santalucia.cdc.core.domain.CargaODLOutputDomain;
 import com.santalucia.cdc.core.mappers.PolicyInputMapper;
 import com.santalucia.cdc.core.mappers.PolicyOutputMapper;
 import com.santalucia.cdc.core.service.MainProcessorService;
+import com.santalucia.cdc.core.service.PolicyMessageProcessorService;
+import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import neg.sl.cartera.polizas_odl.carga.value.CargaODLValue;
 import neg.sl.cartera.polizas_odl.mdl.value.EventosCompletosValue;
 import org.apache.commons.lang3.exception.ExceptionUtils;
@@ -21,15 +21,11 @@ import org.springframework.messaging.support.GenericMessage;
 import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.stereotype.Service;
 
-import com.santalucia.arq.ams.componentes.streaming.processor.HeadersValidationProcessor;
-import com.santalucia.arq.ams.componentes.streaming.processor.SerdProcessor;
-//import com.santalucia.cdc.core.mappers.ClaimKafkaDomainMapper;
-import com.santalucia.cdc.core.service.PolicyMessageProcessorService;
-//import com.santalucia.cdc.core.service.ClaimSaverService;
-//import com.santalucia.prestaciones.siniestros_odl.carga.avro.CargaValue;
-
-import lombok.AllArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import java.nio.charset.StandardCharsets;
+import java.util.Map;
+import java.util.Optional;
+import java.util.function.Consumer;
+import java.util.stream.Collectors;
 
 /**
  * Implementacion del servicio que recibe mensajes con Siniestros
@@ -80,20 +76,19 @@ public class DefaultPolicyMessageProcessorService implements PolicyMessageProces
       log.debug("RECIBIDO - KafkaBindingsConfig.procesar, inbound mensaje {}", message);
       String objetoEntrada = new String(message.getPayload(), StandardCharsets.UTF_8);
 
+      //de AVRO evwntoCompletos a CargaODLInputDomai
+      // de CargaODLInputDomain a CargaODLOutDomain
+      // de CargaODLOutputDomain a cargaValue del avro
+
       // Proceso de validacion de cabeceras.
       processValidation.process(message.getHeaders());
-
       // Proceso de deserializacion avro y gestion cabeceras cloudevents, jwt
       Message<EventosCompletosValue> messageCE = processSerd.deserializer(message, EventosCompletosValue.class, Boolean.FALSE);
-      if (message.getHeaders() != null && message.getHeaders().get(HEADER_KAFKA_OFFSET) instanceof Long) {
-        offset = (Long) message.getHeaders().get(HEADER_KAFKA_OFFSET);
-      }
-      PolizaOutputDomain policyOutput =  mainProcessorService.processMessage(inputDomainMapper.toInputDomain(messageCE.getPayload()));
+      CargaODLOutputDomain cargaODLOutputDomain =  mainProcessorService.processMessage(inputDomainMapper.toInputDomain(messageCE.getPayload()));
       //mapeo de polizaOutputDomain a cargaValue
-      CargaODLValue result = outputDomainMapper.toOutputResource(policyOutput);
-      // Proceso de serializacion avro
-      Message<byte[]> producedMessage =  processSerd.serializer(new GenericMessage<>(policyOutput, message.getHeaders()), Boolean.TRUE);
-
+      CargaODLValue result = outputDomainMapper.toOutputResource(cargaODLOutputDomain);
+      // Proceso de serializacion avr
+      Message<byte[]> producedMessage =  processSerd.serializer(new GenericMessage<>(result, message.getHeaders()), Boolean.TRUE);
       streamBridge.send(OUTBOUND_CHANNEL,producedMessage);
       log.debug("Evento publicado en topic de salida: {}", message);
     };

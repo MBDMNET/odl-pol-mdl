@@ -1,10 +1,9 @@
 package com.santalucia.cdc;
 
+import lombok.Generated;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.context.metrics.buffering.BufferingApplicationStartup;
-
-import lombok.Generated;
 
 
 /**

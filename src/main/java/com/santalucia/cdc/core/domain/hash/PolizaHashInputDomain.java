@@ -1,8 +1,5 @@
 package com.santalucia.cdc.core.domain.hash;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.santalucia.cdc.core.domain.coaseguro.CoaseguroInputDomain;
 import com.santalucia.cdc.core.domain.datos.cobro.DatosCobroInputDomain;
 import com.santalucia.cdc.core.domain.datos.identificativos.DatosIdentificativosInputDomain;
@@ -10,11 +7,12 @@ import com.santalucia.cdc.core.domain.estructura.geografica.EstructuraGeografica
 import com.santalucia.cdc.core.domain.figuras.FigurasInputDomain;
 import com.santalucia.cdc.core.domain.importes.ImportesInputDomain;
 import com.santalucia.cdc.core.domain.polizas.*;
-import com.santalucia.cdc.core.domain.polizas.CampanasInputDomain;
 import com.santalucia.cdc.core.domain.reaseguro.ReaseguroInputDomain;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Dominio para la generacion del hash del objeto poliza.

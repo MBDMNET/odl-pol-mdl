@@ -1,9 +1,9 @@
 package com.santalucia.cdc.core.domain.objeto.asegurado.declaraciones;
 
-import java.time.LocalDate;
-
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.time.LocalDate;
 /**
  * Declaraciones
  *

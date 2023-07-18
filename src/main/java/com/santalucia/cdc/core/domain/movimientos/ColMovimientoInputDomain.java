@@ -1,12 +1,11 @@
 package com.santalucia.cdc.core.domain.movimientos;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.santalucia.cdc.core.domain.metadata.MetadataInputDomain;
-
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Objeto Movimiento

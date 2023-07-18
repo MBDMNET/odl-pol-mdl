@@ -1,7 +1,6 @@
 package com.santalucia.cdc.core.domain.hash;
 
 import com.santalucia.cdc.core.domain.fechasestados.EstadoInputDomain;
-
 import lombok.Data;
 
 /**

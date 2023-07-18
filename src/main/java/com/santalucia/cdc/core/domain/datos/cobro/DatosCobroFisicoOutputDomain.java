@@ -1,5 +1,6 @@
 package com.santalucia.cdc.core.domain.datos.cobro;
 
+import com.santalucia.cdc.core.domain.TipoMDLOuputDomain;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -14,40 +15,31 @@ import lombok.NoArgsConstructor;
 @Data
 @SuppressWarnings("NullAway.Init")
 @NoArgsConstructor
-public class DatosCobroFisicoDomain {
+public class DatosCobroFisicoOutputDomain {
 
-	/** Indicador del tipo de domicilio de cobro/pago */
-	private String indTipDomicCobro;
-	/** Denominacion del tipo de domicilio de cobro/pago */
-	private String descTipDomicCobro;
-	/** Codigo de pais */
-	private String codPais;
-	/** Denominacion del pais */
-	private String descPais;
+	/** Tipo de domicilio de cobro/pago */
+  private TipoMDLOuputDomain tipoDomicilioCobro;
+	/** pais */
+  private TipoMDLOuputDomain pais;
+
 	/** Codigo de provincia */
-	private String codProvincia;
-	/** Denominacion de provincia */
-	private String descProvincia;
-	/** Codigo de localidad */
-	private String codLocalidad;
-	/** Denominacion de localidad */
-	private String descLocalidad;
-	/** Codigo de municipio */
-	private String codMunicipio;
-	/** Codigo Postal */
-	private String codPostal;
+  private TipoMDLOuputDomain provincia;
+	/** Localidad */
+  private TipoMDLOuputDomain localidad;
+	/** municipio */
+  private TipoMDLOuputDomain municipio;
+  /** Codigo Postal*/
+  private TipoMDLOuputDomain codigoPostal;
 	/** Codigo de entidad colectiva */
 	private String codEntColectiva;
 	/** Codigo de entidad singular */
 	private String codEntSingular;
 	/** Codigo de nucleo de poblacion */
 	private String codNucPobla;
-	/** Denominacion de la poblacion */
-	private String descPoblacion;
-	/** Codigo del tipo de via */
-	private String codTipVia;
-	/** Denominacion tipo de via */
-	private String descTipVia;
+	/** Poblacion */
+  private TipoMDLOuputDomain poblacion;
+	/** Tipo de via */
+  private TipoMDLOuputDomain tipoVia;
 	/** Denominacion de domicilio */
 	private String descDomicilio;
 	/** Numero del domicilio */

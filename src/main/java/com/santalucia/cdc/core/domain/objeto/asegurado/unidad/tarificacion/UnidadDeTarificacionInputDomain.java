@@ -1,12 +1,11 @@
 package com.santalucia.cdc.core.domain.objeto.asegurado.unidad.tarificacion;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.santalucia.cdc.core.domain.objeto.asegurado.unidad.tarificacion.capitales.CapitalesInputDomain;
-
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * UnidadDeTarificacion

@@ -1,14 +1,13 @@
 package com.santalucia.cdc.core.domain;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.santalucia.cdc.core.domain.movimientos.ColMovimientoInputDomain;
 import com.santalucia.cdc.core.domain.objeto.asegurado.ColObjetoAseguradoInputDomain;
 import com.santalucia.cdc.core.domain.polizas.PolizaInputDomain;
-
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Objeto poliza

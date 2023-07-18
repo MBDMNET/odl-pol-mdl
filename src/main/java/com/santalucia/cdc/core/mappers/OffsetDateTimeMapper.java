@@ -1,18 +1,12 @@
 package com.santalucia.cdc.core.mappers;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.OffsetDateTime;
-import java.time.YearMonth;
-import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeFormatterBuilder;
-
-import lombok.NonNull;
 import org.mapstruct.InjectionStrategy;
 import org.mapstruct.Mapper;
 
 import javax.annotation.Nullable;
+import java.time.*;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatterBuilder;
 
 /**
  * Offset DateTime mapper

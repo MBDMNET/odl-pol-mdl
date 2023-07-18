@@ -1,9 +1,9 @@
 package com.santalucia.cdc.core.domain.datos.identificativos;
 
-import java.util.List;
-
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.List;
 
 /**
  * DatoIdentificativo
@@ -54,6 +54,12 @@ public class DatosIdentificativosInputDomain {
 	private String numPaquete;
 	/** Numero de identificacion de presupuesto*/
 	private String numIdPresupuesto;
+  /** Número que identifica/agrupa a una cantidad de presupuestos que provienen de una misma necesidad*/
+  private String numIdAgrupacion;
+  /** Indicador nivel de datos colectivos*/
+  private String indNivDatColect;
+  /** Indicador cobertura prestaciones*/
+  private String indCobertPrest;
 	/** Identificador de subcolectivo*/
 	private String idSubcolectivo;
 	/** Descripcion del subcolectivo*/

@@ -27,6 +27,8 @@ public class DatoPersonalInputDomain {
 	private String codTipoPersona;
 	/** Denomiancion de tipo de persona */
 	private String descTipoPersona;
+  /** Fecha de alta*/
+  private String fecAlta;
 	/** Nombre de la persona */
 	private String nombre;
 	/** Primer apellido de la persona */
@@ -55,4 +57,6 @@ public class DatoPersonalInputDomain {
 	private String descBenefic;
 	/** Texto libre*/
 	private String textoLibre;
+  /**  Dependencia de la ficgura*/
+  private DependenciaFiguraDomain dependenciaFigura;
 }

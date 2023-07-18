@@ -20,4 +20,8 @@ public class PrimasTarifInputDomain {
 	private Double impPrimaBruta;
 	/** Importe de prima no consumida*/
 	private Double impPrimaNoCons;
+  /** Importe de prima natural */
+  private Double impPrimaNat;
+  /** Importe de prima nivelada */
+  private Double impPrimCons;
 }

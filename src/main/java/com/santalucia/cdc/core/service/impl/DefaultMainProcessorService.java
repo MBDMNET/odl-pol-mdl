@@ -1,11 +1,12 @@
 package com.santalucia.cdc.core.service.impl;
 
 
-import com.santalucia.cdc.core.domain.polizas.PolizaInputDomain;
-import org.springframework.stereotype.Service;
+import com.santalucia.cdc.core.domain.CargaODLInputDomain;
+import com.santalucia.cdc.core.domain.CargaODLOutputDomain;
 import com.santalucia.cdc.core.service.MainProcessorService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
 
 /**
  *
@@ -21,10 +22,10 @@ public class DefaultMainProcessorService implements MainProcessorService {
 
 
   @Override
-  public PolizaOutputDomain processMessage(PolizaInputDomain item) {
+  public CargaODLOutputDomain processMessage(CargaODLInputDomain item) {
     log.info("Procesando el mensaje");
-
-    return item;
+    CargaODLOutputDomain result = new CargaODLOutputDomain();
+    return result;
   }
 
 }

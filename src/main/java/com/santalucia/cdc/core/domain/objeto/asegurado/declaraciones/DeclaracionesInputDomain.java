@@ -1,10 +1,10 @@
 package com.santalucia.cdc.core.domain.objeto.asegurado.declaraciones;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.ArrayList;
+import java.util.List;
 /**
  * Declaraciones
  *

@@ -1,12 +1,11 @@
 package com.santalucia.cdc.core.domain.objeto.asegurado.caracteristicas;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.santalucia.cdc.core.domain.estructura.geografica.DomicilioInputDomain;
-
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * ObjetoAsegurado

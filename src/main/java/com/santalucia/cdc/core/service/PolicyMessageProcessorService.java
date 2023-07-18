@@ -1,11 +1,10 @@
 package com.santalucia.cdc.core.service;
 
-import java.util.function.Consumer;
-
-import org.springframework.messaging.Message;
-
 import com.santalucia.arq.ams.componentes.streaming.processor.HeadersValidationProcessor;
 import com.santalucia.arq.ams.componentes.streaming.processor.SerdProcessor;
+import org.springframework.messaging.Message;
+
+import java.util.function.Consumer;
 
 /**
  * Interfaz del servicio de recepcion de mensajes

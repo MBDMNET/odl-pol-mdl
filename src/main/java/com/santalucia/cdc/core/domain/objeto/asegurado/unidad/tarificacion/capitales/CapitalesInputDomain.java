@@ -1,10 +1,10 @@
 package com.santalucia.cdc.core.domain.objeto.asegurado.unidad.tarificacion.capitales;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * CapitalesDomain
@@ -29,6 +29,16 @@ public class CapitalesInputDomain {
 	private Double impCapitalBasic;
 	/** Porcentaje Incremento de Capital*/
 	private String porcIncremCap;
+  /** Importe de tramitación de siniestros */
+  private Double impCapitalTramSin;
+  /** Importe de traslado mutualizado */
+  private Double impCapitalTrasMut;
+  /** Importe de capital natural*/
+  private Double impCapitalNat;
+  /** Importe de capital nivelado*/
+  private Double impCapitalNiv;
+  /** Importe de capital consolidado */
+  private Double impCapitalCons;
 	/** */
 	private List<PrevisionesInputDomain> previsiones = new ArrayList<>(DEFAULT_CAPACITY);
 }

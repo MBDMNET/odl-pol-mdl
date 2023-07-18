@@ -1,10 +1,10 @@
 package com.santalucia.cdc.core.domain.hash;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Dominio para la generacion del hash del objeto poliza.

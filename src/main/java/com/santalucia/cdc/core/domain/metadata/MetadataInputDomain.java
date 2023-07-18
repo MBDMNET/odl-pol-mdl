@@ -1,11 +1,10 @@
 package com.santalucia.cdc.core.domain.metadata;
 
-import java.util.List;
-
 import lombok.Data;
 import lombok.NonNull;
 
 import javax.annotation.Nullable;
+import java.util.List;
 
 /**
  * Metadata

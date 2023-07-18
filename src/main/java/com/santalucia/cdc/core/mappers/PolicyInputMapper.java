@@ -1,14 +1,12 @@
 package com.santalucia.cdc.core.mappers;
 
-import com.santalucia.cdc.core.domain.polizas.PolizaInputDomain;
+import com.santalucia.cdc.core.domain.CargaODLInputDomain;
+import com.santalucia.cdc.core.domain.objeto.asegurado.ColObjetoAseguradoInputDomain;
+import neg.sl.cartera.polizas_odl.carga.value.ObjetoAsegurado;
 import neg.sl.cartera.polizas_odl.mdl.value.EventosCompletosValue;
 import org.mapstruct.InjectionStrategy;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
-
-import com.santalucia.cdc.core.domain.objeto.asegurado.ColObjetoAseguradoInputDomain;
-
-import neg.sl.cartera.polizas_odl.carga.value.ObjetoAsegurado;
 
 import javax.annotation.Nullable;
 
@@ -29,7 +27,7 @@ public interface PolicyInputMapper {
 	 * @param resource resource
 	 * @return dominio
 	 */
-	PolizaInputDomain toInputDomain(EventosCompletosValue resource);
+  CargaODLInputDomain toInputDomain(EventosCompletosValue resource);
 
 	/**
 	 * Objeto asegurado to domain

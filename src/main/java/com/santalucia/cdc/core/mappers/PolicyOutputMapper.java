@@ -1,6 +1,7 @@
 package com.santalucia.cdc.core.mappers;
 
 
+import com.santalucia.cdc.core.domain.CargaODLOutputDomain;
 import neg.sl.cartera.polizas_odl.carga.value.CargaODLValue;
 import org.mapstruct.InjectionStrategy;
 import org.mapstruct.Mapper;
@@ -22,7 +23,7 @@ public interface PolicyOutputMapper {
    * @param resource resource
    * @return dominio
    */
-  CargaODLValue toOutputResource(PolizaOutputDomain resource);
+  CargaODLValue toOutputResource(CargaODLOutputDomain resource);
 
 
 
